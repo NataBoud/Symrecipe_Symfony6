@@ -7,6 +7,9 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/united/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/united/_variables.scss">
+            
         {% endblock %}
 
         {% block javascripts %}
@@ -14,8 +17,12 @@
         {% endblock %}
     </head>
     <body>
+        {% block header %}
+            {% include 'partials/_header.html.twig'%}
+        {% endblock %}
         {% block body %}{% endblock %}
     </body>
 </html>
 
 {# Fiare heriter notre vue de ce template => {% extends 'template' %} #}
+{# Reusing Template Contents => holder partials => _header.html.twig (le contenu qui se repete...)#}
