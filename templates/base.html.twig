@@ -25,4 +25,7 @@
 </html>
 
 {# Fiare heriter notre vue de ce template => {% extends 'template' %} #}
-{# Reusing Template Contents => holder partials => _header.html.twig (le contenu qui se repete...)#}
+{# Reusing Template Contents => holder partials => _header.html.twig (le contenu qui se repete => include 'partials/_header.html.twig') => 
+        {% block header %}
+            {% include 'partials/_header.html.twig'%}
+        {% endblock %}  #}
