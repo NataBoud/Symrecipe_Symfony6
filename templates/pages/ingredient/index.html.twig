@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SymRecipe - Mes ingrédients{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        {% if not ingredients.items is same as([])  %}
+        <h1>Mes ingrédients</h1>
+            {# total items count #}
+            <div 
+                class="count mt-4 card text-white bg-secondary mb-3 text-center" style="max-width: 15rem; opacity: .7">              
+                    <div class="m-1">
+                        Il y a 
+                        {{ ingredients.getTotalItemCount }} 
+                        ingrédients au total
+                    </div>               
+            </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">Numéro</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Date de création</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        {% for ingredient in ingredients %}
+                            <tr class="table-primary">
+                                <th scope="row">{{ ingredient.id }}</th>
+                                <td>{{ ingredient.name }}</td>
+                                <td>{{ ingredient.price }}</td>
+                                <td>{{ ingredient.createdAt|date('d/m/Y') }}</td>
+                            </tr> 
+                        {% endfor %}                                                 
+                    </tbody>
+                </table>
+            <div class="navigation d-flex justify-content-center mt-4" >
+                {{ knp_pagination_render(ingredients) }}
+            </div>
+        {% else %}
+            <div 
+                class="count mt-4 card text-white bg-secondary mb-3 text-center" style="max-width: 15rem; opacity: .7">
+                Il n'y a pas d'ingrédients
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
