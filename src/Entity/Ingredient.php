@@ -82,4 +82,11 @@ class Ingredient
 
         return $this;
     }
+
+    // ERROR: Object of class App\Entity\Ingredient could not be converted to string =>
+    public function __toString()
+    {
+       return $this->name; 
+    }
+
 }

@@ -4,6 +4,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ingredient;
+use App\Entity\Recipe;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -22,14 +23,45 @@ class AppFixtures extends Fixture
         
     public function load(ObjectManager $manager): void
     {
-        // on fait une boucle et l'ingredient on met a l'interieur:
+        // Ingredient
+
+        // on fait une boucle et l'ingredient on met a l'interieur.
+        // Создаем список ингидиентов 
+        $ingredients = [];
         for ($i=1; $i <= 50; $i++) { 
             $ingredient = new Ingredient();
             // $ingredient->setName('Ingredient ' . $i)
-            $ingredient->setName($this->faker->word())
+            $ingredient
+                ->setName($this->faker->word())
                 ->setPrice(mt_rand(0, 100));
+            
+            $ingredients[] = $ingredient; 
+            // перед тем как вставить (->persist) ингридиент добавляем его в список
             $manager->persist($ingredient);
-        }             
+        }
+         
+        // Recipes
+        for ($j=0; $j < 25 ; $j++) { 
+            $recipe = new Recipe();
+            $recipe
+                ->setName($this->faker->word())
+                ->setTime(mt_rand(0, 1) == 1 ? mt_rand(1, 1440) : null)
+                ->setNbPeople(mt_rand(0, 1) == 1 ? mt_rand(1, 50) : null)
+                ->setDifficulty(mt_rand(0, 1) == 1 ? mt_rand(1, 5) : null)
+                ->setDescription($this->faker->text(300))
+                ->setPrice(mt_rand(0, 1) == 1 ? mt_rand(1, 1000) : null)
+                ->setIsFavorite(mt_rand(0, 1) == 1 ? true : false);
+
+            // entre 5 et 15 ingr par recette
+            for ($k=0; $k < mt_rand(5, 15) ; $k++) { 
+                // pour la $recipe en cours tu vas ajouter un ingr et comme il est dans un boucle il y en a ajoutra plusieurs(entre 5 et 15 ingr par recette)
+                // on lui ajoute des ing qui sont ds la liste en haut ($ingredients[] = $ingredient; ) => la taille de la list -1 (count($ingredients)-1)
+                $recipe->addIngredient($ingredients[ mt_rand(0, count($ingredients)-1) ]);
+            }
+            $manager->persist($recipe);
+        }
+
+
         $manager->flush();
     }
 }

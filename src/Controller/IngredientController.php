@@ -23,18 +23,18 @@ class IngredientController extends AbstractController
      * @param Request $request
      * @return Response
      */
+     // décoration la controlleur avec Route
     #[Route('/ingredient', name: 'ingredient.index', methods:['GET'])]
     public function index(
         IngredientRepository $repository, 
         PaginatorInterface $paginator, 
         Request $request
-        ): Response
-    {   
+        ): Response {   
         $ingredients = $paginator->paginate(
             // $query, /* query NOT result */
             $repository->findAll(),
             $request->query->getInt('page', 1), /*page number*/
-            7 /*limit per page*/
+            10 /*limit per page*/
         );       
         // dd($ingredients);
         return $this->render('pages/ingredient/index.html.twig', [
@@ -46,7 +46,7 @@ class IngredientController extends AbstractController
     // **** CREATE **** 
     
     /**
-     * This controller show a form wich create an igredient
+     *  This controller allow us to create a new ingrédient
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -56,8 +56,7 @@ class IngredientController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $manager
-        ): Response
-    {
+        ): Response {
         $ingredient = new Ingredient();
         $form = $this->createForm(IngredientType::class, $ingredient); 
 
@@ -123,7 +122,13 @@ class IngredientController extends AbstractController
     
     // **** DELETE ****
 
-
+     /**
+     * This controller allow us to delete an igredient
+     *
+     * @param IngredientRepository $repository
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */ 
     #[Route('/ingredient/suppression/{id}', name:'ingredient.delete', methods:['GET'])]
     public function delete(
         EntityManagerInterface $manager, 
@@ -144,7 +149,7 @@ class IngredientController extends AbstractController
         $manager->flush();
 
         $this->addFlash( 'success',
-            'Votre ingrédient a été  supprimé avec success !'
+            'Votre ingrédient a été supprimé avec success !'
             
         );
 
