@@ -67,7 +67,7 @@ class Recipe
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable;
+        $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         
     }
