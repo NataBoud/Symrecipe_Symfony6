@@ -55,9 +55,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotNull()]
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\Column]
+    #[Assert\NotNull()]
+    private \DateTimeImmutable $updatedAt;
+
 
     public function __construct() {
         $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int

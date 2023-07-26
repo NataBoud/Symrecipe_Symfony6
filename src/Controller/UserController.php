@@ -22,6 +22,7 @@ class UserController extends AbstractController
      * @param integer $id
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param UserPasswordHasherInterface $hasher
      * @return Response
      */
     #[Route('/utilisateur/edition/{id}', name: 'user.edit', methods: ['POST', 'GET'])]
@@ -73,35 +74,53 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * This controller allow us to edit user's password
+     *
+     * @param UserRepository $repository
+     * @param integer $id
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Route('/utilisateur/edition-mot-de-passe/{id}',  name: 'user.edit.password', methods: ['POST', 'GET'])]
     public function editPassword(
         UserRepository $repository, int $id, 
         Request $request,
         EntityManagerInterface $manager,
         UserPasswordHasherInterface $hasher  
-    ): Response 
+        ): Response 
     {
         $user = $repository->findOneBy(['id'=> $id]);
+
+        if(!$this->getUser())
+        {
+            return $this->redirectToRoute('security.login');
+        }
+
+        if($this->getUser() !== $user)
+        {
+            return $this->redirectToRoute('recipe.index');
+        } 
+
         $form = $this->createForm(UserPasswordType::class);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            // dd($form->getData());
             if($hasher->isPasswordValid($user, $form->getData()['plainPassword'])
             ) {
+                // $user->setUpdatedAt(new \DateTimeImmutable()); => not work
                 // $user->setPlainPassword(
                 //     $form->getData()['newPassword']
                 // );
-
                 $user->setPassword(
                     $hasher->hashPassword(
                         $user,
                         $form->getData()['newPassword']
                     )
                 );
-
-
                 $manager->persist($user);
                 $manager->flush();
 
