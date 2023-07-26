@@ -14,7 +14,7 @@
 
         {# read and display just one flash message type #}
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success mt-4">
+            <div class="alert alert-success mt-4" style="max-width: 40rem;">
                 {{ message }}
             </div>
         {% endfor %}

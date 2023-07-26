@@ -6,19 +6,27 @@
     <div class="container">
         <h2 class="mt-4">Formulaire de connexion</h2>
 
+         {# read and display just one flash message type #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mt-4" style="max-width: 20rem;">
+                {{ message }}
+            </div>
+        {% endfor %}
+
 {# On met un form.post et il aura pointé vers la route qui sera le path security.login #}
 {# on met en place les inputs => bootswatch #}
+       
+        <form class="form-group row" action="{{ path('security.login') }}" method="post">
 
-        {% if error %}
-            <div>
-                <div class="alert alert-danger mt-4">
+        <div class="col-12">
+            {% if error %}           
+                <div class="alert alert-danger mt-4" style="max-width: 40rem;">
                     {{ error.messageKey|trans(error.messageData, 'security') }}
                 </div>
-        {% endif %}
+            {% endif %}
+        </div>
 
-        <form action="{{ path('security.login') }}" method="post">
-
-            <div class="form-group">
+            <div class="col-md-4 col-form-group">
                 <label 
                     for="username" 
                     class="form-label mt-4"
@@ -39,7 +47,7 @@
                 </small>
             </div>
 
-            <div class="form-group">
+            <div class="col-md-4 col-form-group">
                 <label 
                     for="password" 
                     class="form-label mt-4"
@@ -54,13 +62,17 @@
                 >
             </div>
 
-            <button
+            <div class="col-12">
+                <button
                 type="submit"
                 class="btn btn-primary mt-4"
-            >Se connecter
-            </button>
+                >Se connecter
+                </button>
+            </div>
 
         </form>
+
+        
     </div>
 
 {% endblock %}
