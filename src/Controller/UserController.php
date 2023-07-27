@@ -9,9 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Command\UserPasswordHashCommand;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 class UserController extends AbstractController
 {   
@@ -111,15 +111,9 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             if($hasher->isPasswordValid($user, $form->getData()['plainPassword'])
             ) {
-                // $user->setUpdatedAt(new \DateTimeImmutable()); => not work
-                // $user->setPlainPassword(
-                //     $form->getData()['newPassword']
-                // );
-                $user->setPassword(
-                    $hasher->hashPassword(
-                        $user,
-                        $form->getData()['newPassword']
-                    )
+                $user->setUpdatedAt(new \DateTimeImmutable()); 
+                $user->setPlainPassword(
+                    $form->getData()['newPassword']
                 );
                 $manager->persist($user);
                 $manager->flush();
