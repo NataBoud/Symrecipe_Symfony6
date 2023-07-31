@@ -20,11 +20,20 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RecipeType extends AbstractType
 {
+    private $token;
+
+    public function __construct(TokenStorageInterface $token)
+    {
+        $this->token = $token;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -143,7 +152,10 @@ class RecipeType extends AbstractType
                 'class' => Ingredient::class,
                 'query_builder' => function (IngredientRepository $r): QueryBuilder {
                     return $r->createQueryBuilder('i')
-                        ->orderBy('i.name', 'ASC');
+                    ->where('i.user = :user')
+                    ->orderBy('i.name', 'ASC')
+                    ->setParameter('user', $this->token->getToken()->getUser());
+                    
                 },
                 
                 'label' => 'Les ingrédients',
@@ -151,18 +163,21 @@ class RecipeType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
+
                 'choice_label' => 'name',
-                
-               
+                'choice_attr' => function() {
+                    return [
+                        'class' => 'form-check-input ms-5 me-2',
+                         
+                    ];             
+                },
                 'multiple' => true,
-                'expanded' => true,
-               
-                              
+                'expanded' => true,                             
             ])
 
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-outline-info mt-4'
+                    'class' => 'btn btn-outline-info mt-4 my-2'
                 ],
                 'label' => 'Créer ma recette'
             ])

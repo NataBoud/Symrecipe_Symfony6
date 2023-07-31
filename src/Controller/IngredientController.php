@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
+
 class IngredientController extends AbstractController
 
 {
@@ -32,7 +35,7 @@ class IngredientController extends AbstractController
         ): Response {   
         $ingredients = $paginator->paginate(
             // $query, /* query NOT result */
-            $repository->findAll(),
+            $repository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );       
@@ -43,8 +46,6 @@ class IngredientController extends AbstractController
     }
 
 
-    // **** CREATE **** 
-    
     /**
      *  This controller allow us to create a new ingrédient
      *
@@ -60,12 +61,11 @@ class IngredientController extends AbstractController
         $ingredient = new Ingredient();
         $form = $this->createForm(IngredientType::class, $ingredient); 
 
-        $form->handleRequest($request);
-       
+        $form->handleRequest($request);       
         if($form->isSubmitted() && $form->isValid()) {
-            // dd($form);
-            // dd($form->getData());
-            $ingredient = $form->getData();           
+            $ingredient = $form->getData();
+            $ingredient->setUser($this->getUser());
+
             $manager->persist($ingredient);
             $manager->flush();
 
@@ -80,8 +80,6 @@ class IngredientController extends AbstractController
         ]);
     }
 
-
-    // **** UPDATE ****
      /**
      * This controller update an igredient
      *
@@ -91,15 +89,19 @@ class IngredientController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/ingredient/edition/{id}', name:'ingredient.edit', methods:['GET', 'POST'])]  
+
+     
+    // Voters to Check User Permissions!!!
+
+    #[Route('/ingredient/edition/{id}', name:'ingredient.edit', methods:['GET', 'POST'])] 
     public function edit(
         IngredientRepository $repository, int $id,
         Request $request, 
         EntityManagerInterface $manager
         ): Response
-    // public function edit(Ingredient $ingredient): Response - NOT WORK!!!
-    {      
+    {   
         $ingredient = $repository->findOneBy(['id'=> $id]);
+
         $form = $this->createForm(IngredientType::class, $ingredient); 
 
         $form->handleRequest($request);
@@ -112,9 +114,10 @@ class IngredientController extends AbstractController
             $this->addFlash(
                 'success',
                 'Votre ingrédient a été modifié avec success !'
-            );
+            ); 
             return $this->redirectToRoute('ingredient.index');
         }
+
         return $this->render('pages/ingredient/edit.html.twig', [
             'form' => $form->createView() 
         ]);

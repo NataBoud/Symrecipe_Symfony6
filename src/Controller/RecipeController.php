@@ -23,15 +23,15 @@ class RecipeController extends AbstractController
      * @return Response
      */
     #[Route('/recette', name: 'recipe.index', methods: ['GET'])]
+   
     public function index(
         PaginatorInterface $paginator, 
         RecipeRepository $repository, 
         Request $request
         ): Response {
         $recipes = $paginator->paginate(           
-            $repository->findAll(),
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $repository->findBy(['user' => $this->getUser()]),
+            $request->query->getInt('page', 1), /*page number*/10/*limit per page*/
         );
 
         return $this->render('pages/recipe/index.html.twig', [
@@ -57,8 +57,10 @@ class RecipeController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            // dd($form->getData());
+    
             $recipe = $form->getData();
+            $recipe->setUser($this->getUser());
+            
             $manager->persist($recipe);
             $manager->flush();
 
@@ -74,8 +76,7 @@ class RecipeController extends AbstractController
     }
    
     /**
-     * This controller allow us to edit a new recipe a recette
-     *
+     * This controller allow us to edit a recipe
      * @param RecipeRepository $repository
      * @param integer $id
      * @param Request $request

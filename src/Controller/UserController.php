@@ -108,29 +108,30 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            if($hasher->isPasswordValid($user, $form->getData()['plainPassword'])
-            ) {
-                $user->setUpdatedAt(new \DateTimeImmutable()); 
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($hasher->isPasswordValid($user, $form->getData()['plainPassword'])) {
+                $user->setUpdatedAt(new \DateTimeImmutable());
                 $user->setPlainPassword(
                     $form->getData()['newPassword']
                 );
-                $manager->persist($user);
-                $manager->flush();
 
                 $this->addFlash(
                     'success',
-                    'Le mot de passe a bien été modifié.'
+                    'Le mot de passe a été modifié.'
                 );
 
+                $manager->persist($user);
+                $manager->flush();
+
                 return $this->redirectToRoute('recipe.index');
-            }else {
+            } else {
                 $this->addFlash(
                     'warning',
-                    'Le mot de passe reinseigné est incorrect.'
+                    'Le mot de passe renseigné est incorrect.'
                 );
-            }   
+            }
         }
+
 
         return $this->render('pages/user/edit_password.html.twig', [
             'form' => $form->createView()

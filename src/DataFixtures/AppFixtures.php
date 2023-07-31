@@ -24,8 +24,23 @@ class AppFixtures extends Fixture
         
     public function load(ObjectManager $manager): void
     {
-        // Ingredient
+        // Users
+        $users = [];
+        for ($i=0; $i < 10; $i++) { 
+            $user = new User();
+            $user
+                ->setName($this->faker->name())
+                ->setLastName($this->faker->lastName())
+                ->setPseudo(mt_rand(0, 1) === 1 ? $this->faker->firstName() : null )
+                ->setEmail($this->faker->email())
+                ->setRoles(['ROLE USER'])
+                ->setPlainPassword('password');
 
+            $users[] = $user;
+            $manager->persist($user);
+          }
+
+        // Ingredient
         // on fait une boucle et l'ingredient on met a l'interieur.
         // Создаем список ингидиентов 
         $ingredients = [];
@@ -34,15 +49,15 @@ class AppFixtures extends Fixture
             // $ingredient->setName('Ingredient ' . $i)
             $ingredient
                 ->setName($this->faker->word())
-                ->setPrice(mt_rand(0, 100));
+                ->setPrice(mt_rand(0, 100))
+                ->setUser($users[ mt_rand(0, count($users) -1) ]);
             
             $ingredients[] = $ingredient; 
             // перед тем как вставить (->persist) ингридиент добавляем его в список
             $manager->persist($ingredient);
         }
          
-        // Recipes
-        
+        // Recipes     
         for ($j=0; $j < 25 ; $j++) { 
             $recipe = new Recipe();
             $recipe
@@ -52,7 +67,8 @@ class AppFixtures extends Fixture
                 ->setDifficulty(mt_rand(0, 1) == 1 ? mt_rand(1, 5) : null)
                 ->setDescription($this->faker->text(300))
                 ->setPrice(mt_rand(0, 1) == 1 ? mt_rand(1, 1000) : null)
-                ->setIsFavorite(mt_rand(0, 1) == 1 ? true : false);
+                ->setIsFavorite(mt_rand(0, 1) == 1 ? true : false)
+                ->setUser($users[ mt_rand(0, count($users) -1) ]);
 
             // entre 5 et 15 ingr par recette
             for ($k=0; $k < mt_rand(5, 15) ; $k++) { 
@@ -63,24 +79,13 @@ class AppFixtures extends Fixture
             $manager->persist($recipe);
         }
 
-        // Users
-
-        for ($i=0; $i < 10; $i++) { 
-           $user = new User();
-           $user
-            ->setName($this->faker->name())
-            ->setLastName($this->faker->lastName())
-            ->setPseudo(mt_rand(0, 1) === 1 ? $this->faker->firstName() : null )
-            ->setEmail($this->faker->email())
-            ->setRoles(['ROLE USER'])
-            ->setPlainPassword('password');
-
-            $manager->persist($user);
-         }
-
         $manager->flush();
     }
 }
+
+
+
+
 
 // 10. composer require --dev orm-fixture
 // Fixtures are used to load a "fake" set of data into a database that can then be used for testing or to help give you some interesting data while you're developing your application.
