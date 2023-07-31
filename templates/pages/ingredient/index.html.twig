@@ -12,9 +12,9 @@
             Créer un ingrédient
         </a>
 
-        {# read and display just one flash message type #}
+        {# read and display just one flash message type (style="max-width: 40rem;??) #}
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success mt-4" style="max-width: 40rem;">
+            <div class="alert alert-success mt-4">
                 {{ message }}
             </div>
         {% endfor %}
