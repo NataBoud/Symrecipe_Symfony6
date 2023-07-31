@@ -7,11 +7,7 @@
 
         {% if not ingredients.items is same as([])  %}
         <h2>Mes ingrédients</h2>
-        {# path('') - un package de symfony qui permet de renseigner une route et pas une URL #}
-        <a href="{{ path('ingredient.new') }}" class="btn btn-primary mt-4">
-            Créer un ingrédient
-        </a>
-
+        
         {# read and display just one flash message type (style="max-width: 40rem;??) #}
         {% for message in app.flashes('success') %}
             <div class="alert alert-success mt-4">
@@ -75,5 +71,11 @@
                 Il n'y a pas d'ingrédients
             </div>
         {% endif %}
+
+        {# path('') - un package de symfony qui permet de renseigner une route et pas une URL #}
+        <a href="{{ path('ingredient.new') }}" class="btn btn-primary mt-4">
+            Créer mon ingrédient
+        </a>
+
     </div>
 {% endblock %}

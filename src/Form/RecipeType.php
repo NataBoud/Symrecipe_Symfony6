@@ -177,7 +177,7 @@ class RecipeType extends AbstractType
 
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-outline-info mt-4 my-2'
+                    'class' => 'btn btn-primary mt-4 my-2'
                 ],
                 'label' => 'Créer ma recette'
             ])

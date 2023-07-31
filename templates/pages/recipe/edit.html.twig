@@ -70,13 +70,15 @@
 				{{ form_label(form.ingredients) }}	
 				{{ form_widget(form.ingredients, {'attr': {'class': ''}}) }}
 			</div>
-				
-				
-			
-				
+								
 			{{ form_row(form._token) }}
 
-			<button type="submit" id="recipe_submit" name="recipe[submit]" class="btn btn-primary mt-4">Modifier ma recette</button>
+			<button type="submit" 
+					id="recipe_submit"
+					 name="recipe[submit]" 
+					 class="btn btn-outline-info mt-4"
+			>Modifier ma recette
+			</button>
 
 		</form>
 
