@@ -65,15 +65,16 @@ class AppFixtures extends Fixture
                 ->setTime(mt_rand(0, 1) == 1 ? mt_rand(1, 1440) : null)
                 ->setNbPeople(mt_rand(0, 1) == 1 ? mt_rand(1, 50) : null)
                 ->setDifficulty(mt_rand(0, 1) == 1 ? mt_rand(1, 5) : null)
-                ->setDescription($this->faker->text(300))
+                ->setDescription($this->faker->text(500))
                 ->setPrice(mt_rand(0, 1) == 1 ? mt_rand(1, 1000) : null)
                 ->setIsFavorite(mt_rand(0, 1) == 1 ? true : false)
+                ->setIsPublic(mt_rand(0, 1) == 1 ? true : false)
                 ->setUser($users[ mt_rand(0, count($users) -1) ]);
 
             // entre 5 et 15 ingr par recette
             for ($k=0; $k < mt_rand(5, 15) ; $k++) { 
                 // pour la $recipe en cours tu vas ajouter un ingr et comme il est dans un boucle il y en a ajoutra plusieurs(entre 5 et 15 ingr par recette)
-                // on lui ajoute des ing qui sont ds la liste en haut ($ingredients[] = $ingredient; ) => la taille de la list -1 (count($ingredients)-1)
+                // on lui ajoute des ings qui sont ds la liste en haut ($ingredients[] = $ingredient; ) => la taille de la list -1 (count($ingredients)-1)
                 $recipe->addIngredient($ingredients[ mt_rand(0, count($ingredients)-1) ]);
             }
             $manager->persist($recipe);

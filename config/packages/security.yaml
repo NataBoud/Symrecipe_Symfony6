@@ -34,14 +34,13 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/ingredient, roles: ROLE_USER }
-        - { path: ^/ingredient/nouveau, roles: ROLE_USER }
-        - { path: ^/ingredient/edition, roles: ROLE_USER }
-        # - { path: ^/ingredient/edition/id, roles: ROLE_USER }
-        - { path: ^/recette, roles: ROLE_USER }
-        - { path: ^/recette/nouveau, roles: ROLE_USER }
-        - { path: ^/recette/edition, roles: ROLE_USER }
-        # - { path: ^/recette/edition/id, roles: ROLE_USER }
+        # - { path: ^/ingredient, roles: ROLE_USER }
+        # - { path: ^/ingredient/nouveau, roles: ROLE_USER }
+        # - { path: ^/ingredient/edition, roles: ROLE_USER }    
+        # - { path: ^/recette, roles: ROLE_USER }
+        # - { path: ^/recette/nouveau, roles: ROLE_USER }
+        # - { path: ^/recette/edition, roles: ROLE_USER }
+     
 
 
     role_hierarchy: 

@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class RecipeController extends AbstractController
 {
@@ -23,21 +24,56 @@ class RecipeController extends AbstractController
      * @return Response
      */
     #[Route('/recette', name: 'recipe.index', methods: ['GET'])]
-   
     public function index(
         PaginatorInterface $paginator, 
         RecipeRepository $repository, 
         Request $request
         ): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $recipes = $paginator->paginate(           
             $repository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1), /*page number*/10/*limit per page*/
         );
-
         return $this->render('pages/recipe/index.html.twig', [
             'recipes' => $recipes,
         ]);
     }
+
+    #[Route('/recette/communaute', name:'recipe.community', methods:['GET'])]
+    public function indexPublic(
+        PaginatorInterface $paginator,
+        RecipeRepository $repository,
+        Request $request   
+        ): Response {
+        
+        $recipes = $paginator->paginate(
+            $repository->findPublicRecipe(null),
+            $request->query->getInt('page', 1), 8
+
+        ); 
+        return $this->render('pages/recipe/community.html.twig', [
+            'recipes' => $recipes 
+        ]);
+    }
+    
+    // #[IsGranted(new Expression("subject.isPublic === true"), subject: 'recipe')]  
+    // #[IsGranted(
+    //     new Expression('is_granted("ROLE_ADMIN") and recipe.isPublic === true')
+    //  )]
+
+    #[Security("is_granted('ROLE_USER') and recipe.isPublic === true")]  
+    #[Route('/recette/{id}', name:'recipe.show', methods:['GET'])]  
+    public function show(
+        Recipe $recipe, 
+        RecipeRepository $repository, int $id,
+        ): Response {
+
+        $recipe = $repository->findOneBy(['id'=> $id]);
+                
+        return $this->render('pages/recipe/show.html.twig', [
+            'recipe' => $recipe
+        ]);
+    } 
 
     /**
      * This controller allow us to create a new recipe
@@ -51,6 +87,8 @@ class RecipeController extends AbstractController
         Request $request,
         EntityManagerInterface $manager 
     ) : Response {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $recipe = new Recipe();
         $form = $this->createForm(RecipeType::class, $recipe);
@@ -83,13 +121,14 @@ class RecipeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */ 
+    #[Security("is_granted('ROLE_USER') and user === recipe.getUser()")]
     #[Route('/recette/edition/{id}', name:'recipe.edit', methods:['GET', 'POST'])] 
     public function edit(
+        Recipe $recipe,
         RecipeRepository $repository, int $id,
         Request $request, 
         EntityManagerInterface $manager
         ): Response
-    // public function edit(Ingredient $ingredient): Response - NOT WORK!!!
     {      
         $recipe = $repository->findOneBy(['id'=> $id]);
         $form = $this->createForm(RecipeType::class, $recipe); 

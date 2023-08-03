@@ -11,9 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class IngredientController extends AbstractController
 
@@ -32,7 +30,8 @@ class IngredientController extends AbstractController
         IngredientRepository $repository, 
         PaginatorInterface $paginator, 
         Request $request
-        ): Response {   
+        ): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $ingredients = $paginator->paginate(
             // $query, /* query NOT result */
             $repository->findBy(['user' => $this->getUser()]),
@@ -44,7 +43,6 @@ class IngredientController extends AbstractController
             'ingredients' => $ingredients 
         ]);
     }
-
 
     /**
      *  This controller allow us to create a new ingrédient
@@ -58,6 +56,7 @@ class IngredientController extends AbstractController
         Request $request,
         EntityManagerInterface $manager
         ): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $ingredient = new Ingredient();
         $form = $this->createForm(IngredientType::class, $ingredient); 
 
@@ -89,12 +88,10 @@ class IngredientController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-
-     
-    // Voters to Check User Permissions!!!
-
+    #[Security("is_granted('ROLE_USER') and user === ingredient.getUser()")]
     #[Route('/ingredient/edition/{id}', name:'ingredient.edit', methods:['GET', 'POST'])] 
     public function edit(
+        Ingredient $ingredient,
         IngredientRepository $repository, int $id,
         Request $request, 
         EntityManagerInterface $manager
