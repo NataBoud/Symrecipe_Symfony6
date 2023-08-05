@@ -6,55 +6,72 @@
 
 {% block body %}
     <div class="container">
-        <h2 class="mt-4">{{ recipe.name }}</h2>
+
+       
+             {# read and display just one flash message type #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mt-4" style="max-width: 40rem;">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <h2 class="mt-4 text-primary">{{ recipe.name }}</h2>
         <div>
-            <span class="badge bg-info mb-2">
+            <span class="badge badge bg-light mb-2 mt-2">
                 Créée le {{ recipe.createdAt|date('d/m/Y') }}
             </span>
         </div>
 
-        <div class="mt-4">
+        <p class="text-body-tertiary">La moyenne de cette recette est de {{ recipe.average|number_format(2, '.', ',') }}/5</p>
+
+        <div>
             {% if recipe.time %}
-                <p>Temps (en minutes): {{ recipe.time }}</p>
+                <p class="mb-2">Temps (en minutes): {{ recipe.time }}</p>
             {% else %}
-                <p>Temps non renseigné</p>  
+                <p class="mb-2">Temps non renseigné</p>  
             {% endif %}
         </div>
 
-        <div class="mt-4">
+        <div>
             {% if recipe.nbPeople %}
-            <p>Pour {{ recipe.nbPeople }} personnes</p>
+            <p class="mb-2">Pour {{ recipe.nbPeople }} personnes</p>
             {% else %}
-                <p>Nombre de personnes non renseigné</p>  
+                <p class="mb-2">Nombre de personnes non renseigné</p>  
             {% endif %}
         </div>
 
-        <div class="mt-4">
+        <div>
             {% if recipe.difficulty %}
-                <p>Difficulté {{ recipe.difficulty }}/5</p>
+                <p class="mb-2">Difficulté {{ recipe.difficulty }}/5</p>
             {% else %}
-                <p>Difficulté non renseigné</p>  
+                <p class="mb-2">Difficulté non renseigné</p>  
             {% endif %}
         </div>
 
-        <div class="mt-4">
+        <div>
             {% if recipe.price %}
-            <p>Prix (en €) {{ recipe.price }}</p>
+            <p class="mb-2">Prix (en €) {{ recipe.price }}</p>
             {% else %}
-                <p>Prix non renseigné</p>  
+                <p class="mb-2">Prix non renseigné</p>  
             {% endif %}
         </div>
 
-        <div class="mt-4">
-            <div>{{ recipe.description|raw }}</div>
+        <div class="text-body-secondary mt-2" style="max-width: 40rem">
+            <p>{{ recipe.description|raw }}</p>
         </div>
 
-        <div class="mt-4">
-            <p>Ingrédients</p>
+        <div class="text-primary">
+            <p class="mb-1 mt-2">Ingrédients</p>
             {% for ingredient in recipe.ingredients %}
                 <span class="badge bg-primary">{{ ingredient.name }}</span>
             {% endfor %}
-        </div>       
+        </div> 
+
+        <div class="mark bg-body-tertiary bg-opacity-10 " style="max-width: 20rem">
+            {{ form(form) }} 
+        </div>
+     
+
     </div>
 {% endblock %} 
 

@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <strong>Symrecipe</strong>
+        </a>
         <button class="navbar-toggler" 
                 type="button" 
                 data-bs-toggle="collapse" 
@@ -38,7 +40,7 @@
                 <ul class="navbar-nav me-auto">
 
                 {% if app.user %}
-                    <li class="nav-item dropdown" style="margin-right: 5rem">
+                    <li class="nav-item dropdown" style="margin-right: 0rem">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.name }}</a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ path('user.edit', {id : app.user.id}) }}">Modifier mes informations</a>

@@ -12,11 +12,11 @@
 
         <div class="d-flex flex-wrap justify-content-start">
             {% for recipe in recipes %}
-            <div class="card border-primary mb-4 me-4 shadow-sm rounded" style="max-width: 18rem;">
-                <div class="card-header">Recette № {{ recipe.id }}</div>
+            <div class="card bg-body-tertiary bg mb-4 me-4 shadow-sm rounded" style="max-width: 18rem;">
+                <div class="card-header text-body-tertiary">recette № {{ recipe.id }}</div>
                 <div class="card-body">
                   <h4 class="card-title text-primary">{{ recipe.name }}</h4>
-                  <p class="card-text">{{ recipe.description|slice(0, 100) ~ '...' }}</p>
+                  <p class="card-text text-body-secondary">{{ recipe.description|slice(0, 100) ~ '...' }}</p>
                 </div>
               </div>
             {% endfor %}
