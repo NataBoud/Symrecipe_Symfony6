@@ -3,37 +3,43 @@
 {% block body %}
     <div class="container">
         
-        <h1 class="mt-4">
+        <h1 class="my-4">
             Modification de l'ingrédient
         </h1>
        
-        	<form name="ingredient" method="post">
+		<form name="ingredient" method="post">
+			<div class="row bg-secondary-subtle col-8 px-4 mb-5 d-flex justify-content-center" style="margin-bottom: 80px">
+				<div class="row">
+					<div class="form-group col-6">
+						{{ form_label(form.name) }}
+						{{ form_widget(form.name) }}
+						<div class="form-error">
+							{{ form_errors(form.name) }}
+						</div>
+					</div>
 
-			<div class="form-group">
-				{{ form_label(form.name) }}
-				{{ form_widget(form.name) }}
-				<div class="form-error">
-					{{ form_errors(form.name) }}
+					<div class="form-group col-6">
+						{{ form_label(form.price) }}
+						{{ form_widget(form.price) }}
+						<div class="form-error">
+							{{ form_errors(form.price) }}
+						</div>
+					</div>
+
+					{{ form_row(form._token) }}
 				</div>
-			</div>
-
-			<div class="form-group">
-				{{ form_label(form.price) }}
-				{{ form_widget(form.price) }}
-				<div class="form-error">
-					{{ form_errors(form.price) }}
-				</div>
-			</div>
-
-			{{ form_row(form._token) }}
-
-			<button type="submit" 
-                    id="ingredient_submit" 
-                    name="ingredient[submit]"
-                    class="btn btn-outline-info mt-4"
-            >Modifier mon ingrédient
-            </button>
-
+					
+				<div class="row d-flex justify-content-start">
+					<div class="form-group col-6">
+						<button type="submit" 
+							id="ingredient_submit" 
+							name="ingredient[submit]"
+							class="btn btn-outline-info mt-4 mb-5"
+						>Modifier mon ingrédient
+						</button>
+					</div>
+				</div>		
+			</div> 
 	    </form>
 
 

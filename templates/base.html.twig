@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -18,13 +18,18 @@
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
         {% endblock %}
-    </head>
-    <body>
-        {% block header %}
+    </head>    
+    <body style="position: relative; margin: 0; min-height: 100%; padding-bottom: 60px">                  
+            {% block header %}
             {% include 'partials/_header.html.twig'%}
-        {% endblock %}
-        {% block body %}{% endblock %}
+            {% endblock %}
+            {% block body %}{% endblock %}
+
+            <div class="bg-light" style="position: absolute; bottom: 0; width: 100%; height: 60px">
+                {% include "partials/_footer.html.twig" %}  
+            </div>      
     </body>
+       
 </html>
 
 {# Fiare heriter notre vue de ce template => {% extends 'template' %} #}

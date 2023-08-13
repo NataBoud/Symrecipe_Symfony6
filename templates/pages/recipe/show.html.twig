@@ -16,6 +16,11 @@
         {% endfor %}
 
         <h2 class="mt-4 text-primary">{{ recipe.name }}</h2>
+
+        <div class="recipe__image">
+			<img style="max-width: 500px;" src="{{ vich_uploader_asset(recipe, 'imageFile') }}">
+		</div>
+
         <div>
             <span class="badge badge bg-light mb-2 mt-2">
                 Créée le {{ recipe.createdAt|date('d/m/Y') }}

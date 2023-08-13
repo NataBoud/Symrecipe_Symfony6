@@ -90,9 +90,10 @@ class AppFixtures extends Fixture
                 $mark
                     ->setMark(mt_rand(1, 5))
                     ->setUser($users[mt_rand(0, count($users)-1)])
-                    ->setRecipe($recipe);   
-            }
-            $manager->persist($mark);
+                    ->setRecipe($recipe); 
+                    
+                $manager->persist($mark);
+            }          
         }
         $manager->flush();
     }

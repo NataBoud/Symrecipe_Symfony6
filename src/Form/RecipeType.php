@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RecipeType extends AbstractType
 {
@@ -43,7 +44,7 @@ class RecipeType extends AbstractType
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
-                'label' => 'Nom',
+                'label' => 'Nom de la recette',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -90,7 +91,7 @@ class RecipeType extends AbstractType
 
             ->add('difficulty', RangeType::class, [
                 'attr' => [
-                    'class' => 'form-range',
+                    'class' => 'form-range mt-2',
                     'min' => 1,
                     'max' => 5
                 ],
@@ -140,10 +141,17 @@ class RecipeType extends AbstractType
                 'required' => false,
                 'label' => 'Favori ?',
                 'label_attr' => [
-                    'class' => 'form-check-label '
+                    'class' => 'form-check-label'
                 ],
                 'constraints' => [
                     new Assert\NotNull()
+                ]
+            ])
+
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Image de la recette',
+                'label_attr' => [
+                    'class' => 'form-label mb-3 mt-4'
                 ]
             ])
 
@@ -167,7 +175,7 @@ class RecipeType extends AbstractType
                 'choice_label' => 'name',
                 'choice_attr' => function() {
                     return [
-                        'class' => 'form-check-input ms-5 me-2',
+                        'class' => 'form-check-input me-2',
                          
                     ];             
                 },
@@ -177,11 +185,10 @@ class RecipeType extends AbstractType
 
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-primary mt-4 my-2'
+                    'class' => 'btn btn-primary mt-4 mb-5'
                 ],
                 'label' => 'Créer ma recette'
-            ])
-        ;
+            ]);      
     }
 
     public function configureOptions(OptionsResolver $resolver): void

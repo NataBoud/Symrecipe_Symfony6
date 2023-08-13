@@ -1,87 +1,98 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
+
+{% block title %}SymRecipe - Modification de la recette
+{% endblock %}
 
 {% block body %}
-    <div class="container">
-        
-        <h2 class="mt-4">
-            Modification de la recette
-        </h2>
+	<div class="container" style="margin-bottom: 120px">
+		
+		<h2 class="my-4">Modification de la recette</h2>
 
-        <form name="recipe" method="post" enctype="multipart/form-data">
+		<form name="recipe" method="post" enctype="multipart/form-data">
+			<div class="row bg-secondary-subtle col-9 px-4 mb-5 d-flexjustify-content-center"> 
+				<div class="row ">
+					<div class="form-group col-6">
+						{{ form_label(form.name) }}
+						{{ form_widget(form.name) }}
+						<div class="form-error">
+							{{ form_errors(form.name) }}
+						</div>
+					</div>
 
-			<div class="form-group">
-				{{ form_label(form.name) }}
-				{{ form_widget(form.name) }}
-				<div class="form-error">
-					{{ form_errors(form.name) }}
+					<div class="form-group col-6">
+						{{ form_label(form.price) }}
+						{{ form_widget(form.price) }}
+						<div class="form-error">
+							{{ form_errors(form.price) }}
+						</div>
+					</div>
 				</div>
-			</div>
 
-			{# <div class="form-image">
-				{{ form_row(form.imageFile) }}
-			</div> #}
+				<div class="row">
+					<div class="form-group col-6">
+						{{ form_label(form.time) }}
+						{{ form_widget(form.time) }}
+						<div class="form-error">
+							{{ form_errors(form.time) }}
+						</div>
+					</div>
 
-			<div class="form-group">
-				{{ form_label(form.time) }}
-				{{ form_widget(form.time) }}
-				<div class="form-error">
-					{{ form_errors(form.time) }}
+					<div class="form-group col-6">
+						{{ form_label(form.nbPeople) }}
+						{{ form_widget(form.nbPeople) }}
+						<div class="form-error">
+							{{ form_errors(form.nbPeople) }}
+						</div>
+					</div>
 				</div>
-			</div>
 
-			<div class="form-group">
-				{{ form_label(form.nbPeople) }}
-				{{ form_widget(form.nbPeople) }}
-				<div class="form-error">
-					{{ form_errors(form.nbPeople) }}
+				<div class="row">
+					<div class="form-group">
+						{{ form_label(form.description) }}
+						{{ form_widget(form.description) }}
+						<div class="form-error">
+							{{ form_errors(form.description) }}
+						</div>
+					</div>
+
+					<div class="form-group">
+						{{ form_label(form.difficulty) }}
+						{{ form_widget(form.difficulty) }}
+						<div class="form-error">
+							{{ form_errors(form.difficulty) }}
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="form-check mt-4">
+							{{ form_label(form.isFavorite) }}
+							{{ form_widget(form.isFavorite) }}
+						</div>
+					</div>
+
+					{{ form_label(form.ingredients) }}
+					<br>
+					<div id="ingredients-wrapper">
+						{% for field in form.ingredients %}
+							<div style="min-width: 10%;">
+								{{ form_widget(field) }}
+								{{ form_label(field) }}
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="form-image">
+						{{ form_row(form.imageFile) }}
+					</div>
+
+					<div class="mt-2 mb-5">
+						<button type="submit" id="recipe_submit" name="recipe[submit]" class="btn btn-outline-info mt-4">Modifier une recette</button>
+					</div>
+
+					{{ form_row(form._token) }}
 				</div>
+
 			</div>
-
-			<div class="form-group">
-				{{ form_label(form.difficulty) }}
-				{{ form_widget(form.difficulty) }}
-				<div class="form-error">
-					{{ form_errors(form.difficulty) }}
-				</div>
-			</div>
-
-			<div class="form-group">
-				{{ form_label(form.description) }}
-				{{ form_widget(form.description) }}
-				<div class="form-error">
-					{{ form_errors(form.description) }}
-				</div>
-			</div>
-
-			<div class="form-group">
-				{{ form_label(form.price) }}
-				{{ form_widget(form.price) }}
-				<div class="form-error">
-					{{ form_errors(form.price) }}
-				</div>
-			</div>
-
-			<div class="form-check mt-4">
-				{{ form_widget(form.isFavorite) }}
-				{{ form_label(form.isFavorite) }}
-			</div>
-
-			<div class="form-group">
-				{{ form_label(form.ingredients) }}	
-				{{ form_widget(form.ingredients, {'attr': {'class': ''}}) }}
-			</div>
-								
-			{{ form_row(form._token) }}
-
-			<button type="submit" 
-					id="recipe_submit"
-					 name="recipe[submit]" 
-					 class="btn btn-outline-info mt-4"
-			>Modifier ma recette
-			</button>
-
 		</form>
-
-    
-    </div>
+	</div>
 {% endblock %}

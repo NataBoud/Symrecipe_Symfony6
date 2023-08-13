@@ -3,16 +3,58 @@
 {% block title %}SymRecipe - Inscription{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h2 class="mt-4">Formulaire d'inscription</h2>
+    <div class="container" style="margin-bottom: 120px">
+        <h2 class="my-4">Formulaire d'inscription</h2>
 
-    <div class="row">
-        <div class="col">
-             {{ form(form) }}
-        </div>
-        <div class="col">
+    <div class="row bg-secondary-subtle col-8 px-4 mb-5">
+        {{ form_start(form) }}
             
-        </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                        <div class="form-error">
+                            {{ form_errors(form.name) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-6">
+                        {{ form_label(form.lastName) }}
+                        {{ form_widget(form.lastName) }}
+                        <div class="form-error">
+                            {{ form_errors(form.lastName) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-6">
+                        {{ form_label(form.pseudo) }}
+                        {{ form_widget(form.pseudo) }}
+                        <div class="form-error">
+                            {{ form_errors(form.pseudo) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-6">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        <div class="form-error">
+                            {{ form_errors(form.email) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row d-flex justify-content-start">
+                    <div class="form-group">
+                        {{ form_row(form.plainPassword) }}
+                        <div class="form-error">
+                            {{ form_errors(form.plainPassword) }}
+                        </div>
+                    </div>
+                </div>
+         
+            {{ form_end(form) }}
     </div>
 
        

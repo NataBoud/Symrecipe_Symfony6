@@ -7,42 +7,34 @@
 {% block body %}
     <div class="container">
         
-        <h1 class="mt-4">
+        <h1 class="my-4">
             Création d'un ingrédient
         </h1>
 
-        <div class="row">
-        <div class="col">
-             {{ form_start(form) }}
+        <div class="row bg-secondary-subtle col-8 px-4 mb-5 d-flex justify-content-center" style="margin-bottom: 80px">
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="form-group col-6">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                        <div class="form-error">
+                            {{ form_errors(form.name) }}
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                {{ form_label(form.name) }}
-                {{ form_widget(form.name) }}
-                <div class="form-error">
-                    {{ form_errors(form.name) }}
+                    <div class="form-group col-6">
+                        {{ form_label(form.price) }}
+                        {{ form_widget(form.price) }}
+                        <div class="form-error">
+                            {{ form_errors(form.price) }}
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                {{ form_label(form.price) }}
-                {{ form_widget(form.price) }}
-                <div class="form-error">
-                    {{ form_errors(form.price) }}
+                <div class="form-group">
+                    {{ form_row(form.submit) }}
                 </div>
-            </div>
-
-            <div class="form-group">
-                {{ form_row(form.submit) }}
-            </div>
-
-        {{ form_end(form) }}
+            {{ form_end(form) }}
         </div>
-        <div class="col">
-            
-        </div>
-    </div>
-      
-        
-
     </div>
 {% endblock %}

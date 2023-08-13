@@ -4,17 +4,17 @@
 
 {% block body %}
     <div class="container mt-4">
+    
+    {# read and display just one flash message type #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mt-4" style="max-width: 40rem;">
+                {{ message }}
+            </div>
+        {% endfor %}
 
         {% if not recipes.items is same as([])  %}
-        <h2>Mes recettes</h2>
-
-            {# read and display just one flash message type #}
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success mt-4" style="max-width: 40rem;">
-                    {{ message }}
-                </div>
-            {% endfor %}
-     
+            <h2>Mes recettes</h2>
+        
             {# total items count #}
             <div 
                 class="count mt-4 mb-3" style="max-width: 15rem; opacity: .7">              
@@ -64,22 +64,26 @@
                                     >Supprimer
                                     </a>
                                 </td>
-                            </tr> 
-                        {% endfor %}                                                 
+                            </tr>
+                        {% endfor %} 
+                                                                  
                     </tbody>
                 </table>
-            <div class="navigation d-flex justify-content-center mt-4" >
-                {{ knp_pagination_render(recipes) }}
-            </div>
+                <div class="navigation d-flex justify-content-center mt-4" >
+                    {{ knp_pagination_render(recipes) }}
+                </div>
         {% else %}
 
             <div 
                 class="count mt-4 mb-3" style="max-width: 15rem; opacity: .7">
                 Il n'y a pas de recettes
             </div>
+
+            
+
         {% endif %}
 
-        <a href="{{ path('recipe.new') }}" class="btn btn-primary mt-4">
+        <a href="{{ path('recipe.new') }}" class="btn btn-primary mt-4" style="margin-bottom: 80px">
             Créer ma recette
         </a>
         
