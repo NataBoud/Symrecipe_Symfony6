@@ -175,7 +175,7 @@ class RecipeType extends AbstractType
                 'choice_label' => 'name',
                 'choice_attr' => function() {
                     return [
-                        'class' => 'form-check-input me-2',
+                        'class' => 'form-check-input',
                          
                     ];             
                 },

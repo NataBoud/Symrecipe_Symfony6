@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SymRecipe - Mes recettes{% endblock %}
+{% block title %}
+    SymRecipe - Recettes de la communauté
+{% endblock %}
 
 {% block body %}
     <div class="container mt-4">
@@ -12,11 +14,17 @@
 
         <div class="d-flex flex-wrap justify-content-start">
             {% for recipe in recipes %}
-            <div class="card bg-body-tertiary bg mb-4 me-4 shadow-sm rounded" style="max-width: 18rem;">
+            <div class="card bg-body-tertiary bg mb-4 me-4 shadow-sm rounded" style="width: 18rem; min-height: 14rem">
                 <div class="card-header text-body-tertiary">recette № {{ recipe.id }}</div>
                 <div class="card-body">
-                  <h4 class="card-title text-primary">{{ recipe.name }}</h4>
-                  <p class="card-text text-body-secondary">{{ recipe.description|slice(0, 100) ~ '...' }}</p>
+                    <h4 class="card-title text-primary">
+                        <a href="{{ path('recipe.show', {id: recipe.id}) }}">
+                            {{ recipe.name }}
+                        </a>
+                    </h4>
+                    <p class="card-text text-body-secondary">
+                        {{ recipe.description|slice(0, 100) ~ '...' }}
+                    </p>
                 </div>
               </div>
             {% endfor %}

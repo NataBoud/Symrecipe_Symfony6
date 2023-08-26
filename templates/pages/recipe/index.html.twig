@@ -6,11 +6,11 @@
     <div class="container mt-4">
     
     {# read and display just one flash message type #}
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success mt-4" style="max-width: 40rem;">
-                {{ message }}
-            </div>
-        {% endfor %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-4">
+            {{ message }}
+        </div>
+    {% endfor %}
 
         {% if not recipes.items is same as([])  %}
             <h2>Mes recettes</h2>
@@ -21,7 +21,7 @@
                     <div class="m-1">
                         Il y a 
                         {{ recipes.getTotalItemCount }} 
-                        recettes au total
+                        recette(s) au total
                     </div>               
             </div>
 
@@ -43,10 +43,20 @@
                                 <th scope="row">{{ recipe.id }}</th>
                                 <td>{{ recipe.name }}</td>
                                 <td>
-                                {{ (recipe.price is null) ? 'Non renseigné' : recipe.price }}
+                                    {% if recipe.price is null %}
+                                        Non renseigné
+                                    {% else %} 
+                                        {{ recipe.price }} €
+                                    {% endif %}
+                                    {# {{ (recipe.price is null) ? 'Non renseigné' : (recipe.price|number_format(2, '.', ',')) }} #}
                                 </td>
                                 <td>
-                                {{ (recipe.difficulty is null) ? 'Non renseigné' : recipe.difficulty }}
+                                    {% if recipe.difficulty is null %}
+                                        Non renseigné
+                                    {% else %} 
+                                        {{ recipe.difficulty }} sur 5
+                                    {% endif %}
+                                    {# {{ (recipe.difficulty is null) ? 'Non renseigné' : recipe.difficulty }} #}
                                 </td>                        
                                 <td>{{ recipe.createdAt|date('d/m/Y') }}</td>
                                 <td>

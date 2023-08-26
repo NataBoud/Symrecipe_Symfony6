@@ -12,25 +12,29 @@
             <p class="lead">SymRecipe est une application qui va permettre de créer des recettes à la base d'ingrédients que tu auras toi-même créer. Tu pourras partager tes recettes à la communauté du site, ou bien les garder en privées.</p>
             <hr class="mt-4">
             <p class="text-secondary">Pour commencer, rendez-vous sur la page d'inscription pour utiliser l'application.</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Inscription</a>
+            <a class="btn btn-primary btn-lg" href="{{ path('security.registration') }}" role="button">Inscription</a>
         </div>
 
         <div class="recipes" style="margin-bottom: 80px">
             <h2 class="mt-5 mb-4">Recettes de la communauté</h2>
-            <div class="d-flex justify-content-start">
+            <div class="d-flex flex-wrap justify-content-start">
                 {% for recipe in recipes %}
-                <div class="card bg-body-tertiary mb-4 me-4 shadow-sm rounded" style="max-width: 18rem;">
+                <div class="card bg-body-tertiary mb-4 me-4 shadow-sm rounded" style="width: 18rem; min-height: 14rem">
                     <div class="card-header text-body-tertiary">Recette № {{ recipe.id }}</div>
                     <div class="card-body">
-                      <h4 class="card-title text-primary">{{ recipe.name }}</h4>
-                      <p class="card-text text-body-secondary">{{ recipe.description|slice(0, 100) ~ '...' }}</p>
+                        <h4 class="card-title text-primary">
+                            <a href="{{ path('recipe.show', {id: recipe.id}) }}">
+                                {{ recipe.name }}
+                            </a>
+                        </h4>
+                        <p class="card-text text-body-secondary">
+                            {{ recipe.description|slice(0, 100) ~ '...' }}
+                        </p>
                     </div>
-                  </div>
+                </div>
                 {% endfor %}
             </div>
         </div>
 
     </div>
-
-    
 {% endblock %}

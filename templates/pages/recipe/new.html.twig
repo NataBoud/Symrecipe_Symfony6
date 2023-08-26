@@ -72,7 +72,7 @@
                 <br>
                 <div id="ingredients-wrapper">
                     {% for field in form.ingredients %}
-                        <div style="min-width: 10%;">
+                        <div id="ingredients">
                             {{ form_widget(field) }}
                             {{ form_label(field) }}
                         </div>

@@ -5,15 +5,15 @@
 {% block body %}
     <div class="container mt-4">
 
+    {# read and display just one flash message type (style="max-width: 40rem;??) #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-4">
+            {{ message }}
+        </div>
+    {% endfor %}
+
         {% if not ingredients.items is same as([])  %}
         <h2>Mes ingrédients</h2>
-        
-        {# read and display just one flash message type (style="max-width: 40rem;??) #}
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success mt-4">
-                {{ message }}
-            </div>
-        {% endfor %}
 
             {# total items count #}
             <div 
@@ -21,7 +21,7 @@
                     <div class="m-1">
                         Il y a 
                         {{ ingredients.getTotalItemCount }} 
-                        ingrédients au total
+                        ingrédient(s) au total
                     </div>               
             </div>
 
@@ -41,7 +41,7 @@
                             <tr class="table-primary">
                                 <th scope="row">{{ ingredient.id }}</th>
                                 <td>{{ ingredient.name }}</td>
-                                <td>{{ ingredient.price }}</td>
+                                <td>{{ ingredient.price|number_format(2, '.', ',') }} €</td>
                                 <td>{{ ingredient.createdAt|date('d/m/Y') }}</td>
                                 <td>
                                     <a 
@@ -70,11 +70,11 @@
                 class="count mt-4" style="max-width: 15rem; opacity: .7">
                 Il n'y a pas d'ingrédients
             </div>
+            
         {% endif %}
 
-        {# path('') - un package de symfony qui permet de renseigner une route et pas une URL #}
         <a href="{{ path('ingredient.new') }}" class="btn btn-primary mt-4" style="margin-bottom: 80px">
-            Créer mon ingrédient
+                Créer mon ingrédient
         </a>
 
     </div>

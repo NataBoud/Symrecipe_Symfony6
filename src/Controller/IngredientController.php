@@ -51,7 +51,7 @@ class IngredientController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/ingredient/nouveau', name:'ingredient.new', methods:['GET', 'POST'])]
+    #[Route('/ingredient/creation', name:'ingredient.new', methods:['GET', 'POST'])]
     public function new(
         Request $request,
         EntityManagerInterface $manager
@@ -119,8 +119,6 @@ class IngredientController extends AbstractController
             'form' => $form->createView() 
         ]);
     } 
-    
-    // **** DELETE ****
 
      /**
      * This controller allow us to delete an igredient
@@ -128,11 +126,13 @@ class IngredientController extends AbstractController
      * @param IngredientRepository $repository
      * @param EntityManagerInterface $manager
      * @return Response
-     */ 
+     */
+    #[Security("is_granted('ROLE_USER') and user === ingredient.getUser()")] 
     #[Route('/ingredient/suppression/{id}', name:'ingredient.delete', methods:['GET'])]
     public function delete(
         EntityManagerInterface $manager, 
         IngredientRepository $repository, int $id,
+        Ingredient $ingredient,
         ): Response 
     {
         $ingredient = $repository->findOneBy(['id'=> $id]);

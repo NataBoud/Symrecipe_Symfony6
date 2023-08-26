@@ -59,7 +59,7 @@ class RecipeController extends AbstractController
         RecipeRepository $repository,
         Request $request   
         ): Response {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        // $this->denyAccessUnlessGranted('ROLE_USER');
         
         $recipes = $paginator->paginate(
             $repository->findPublicRecipe(null),
@@ -78,7 +78,7 @@ class RecipeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/recette/nouveau', name:'recipe.new', methods:['GET', 'POST'])]
+    #[Route('/recette/creation', name:'recipe.new', methods:['GET', 'POST'])]
     public function new(
         Request $request, 
         EntityManagerInterface $manager
@@ -213,10 +213,12 @@ class RecipeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */ 
+    #[Security("is_granted('ROLE_USER') and user === recipe.getUser()")]
     #[Route('/recette/suppression/{id}', name:'recipe.delete', methods:['GET'])]
     public function delete(
         EntityManagerInterface $manager, 
         RecipeRepository $repository, int $id,
+        Recipe $recipe,
         ): Response 
     {
         $recipe = $repository->findOneBy(['id'=> $id]);
