@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    SymRecipe - Contact
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="my-4">Contactez-nous</h2>
+
+        <div class="row col-md-8 mb-5 mx-1 d-flex justify-content-between" style="margin-bottom: 80px">
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {{ form_start(form) }}
+
+                <div class="row col-form-label-sm bg-secondary-subtle  justify-content-center">
+                    <div class="row px-0">
+                        <div class="form-group col-6 pe-0">
+                            {{ form_label(form.firstName) }}
+                            {{ form_widget(form.firstName) }}
+                            <div class="form-error">
+                                {{ form_errors(form.firstName) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            {{ form_label(form.lastName) }}
+                            {{ form_widget(form.lastName) }}
+                            <div class="form-error">
+                                {{ form_errors(form.lastName) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row px-0">
+                        <div class="form-group col-6 pe-0">
+                            {{ form_label(form.email) }}
+                            {{ form_widget(form.email) }}
+                            <div class="form-error">
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            {{ form_label(form.subject) }}
+                            {{ form_widget(form.subject) }}
+                            <div class="form-error">
+                                {{ form_errors(form.subject) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group px-0">
+                        {{ form_row(form.message) }}
+                    </div>
+
+                    <div class="row form-group px-0">
+                        {{ form_row(form.submit) }}
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
+{% endblock %}

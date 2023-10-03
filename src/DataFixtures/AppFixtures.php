@@ -3,6 +3,7 @@
 // src/DataFixtures/AppFixtures.php
 namespace App\DataFixtures;
 
+use App\Entity\Contact;
 use App\Entity\Ingredient;
 use App\Entity\Mark;
 use App\Entity\Recipe;
@@ -30,7 +31,7 @@ class AppFixtures extends Fixture
         for ($i=0; $i < 10; $i++) { 
             $user = new User();
             $user
-                ->setName($this->faker->name())
+                ->setFirstName($this->faker->firstName())
                 ->setLastName($this->faker->lastName())
                 ->setPseudo(mt_rand(0, 1) === 1 ? $this->faker->firstName() : null )
                 ->setEmail($this->faker->email())
@@ -95,8 +96,24 @@ class AppFixtures extends Fixture
                 $manager->persist($mark);
             }          
         }
+
+        // Contact
+        for ($i=0; $i < 5; $i++) { 
+            $contact = new Contact();
+            $contact
+                ->setFirstName($this->faker->firstName())
+                ->setLastName($this->faker->lastName())
+                ->setEmail($this->faker->email())
+                ->setSubject('Demande n°' . ($i +1))
+                ->setMessage($this->faker->text());
+
+            $manager->persist($contact);
+        }
+
         $manager->flush();
     }
+
+        
 }
 
 // 10. composer require --dev orm-fixture
