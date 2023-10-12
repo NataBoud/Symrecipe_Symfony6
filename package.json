@@ -2,5 +2,6 @@
   "dependencies": {
     "bootstrap": "^5.3.0",
     "bootswatch": "^5.3.0"
+    
   }
 }
